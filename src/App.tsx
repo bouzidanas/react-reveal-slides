@@ -15,6 +15,7 @@ function App() {
   const [text, setText] = useState("What we are starting with")
   const [presState, setPresState] = useState({"indexh": -1, "indexv": -1, "indexf": -1, "paused": false, "overview": false })
   const [useCustomTheme, setUseCustomTheme] = useState(false);
+  const [controlsLayout, setControlsLayout] = useState<"edges" | "bottom-right" | undefined>("edges");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,25 +38,35 @@ function App() {
       setUseCustomTheme(true);
     }, 15000);
 
+    const timer6 = setTimeout(() => {
+      setControlsLayout("bottom-right");
+    }, 18000);
+
     return () => {
       clearTimeout(timer)
       clearTimeout(timer2)
       clearTimeout(timer3)
       clearTimeout(timer4)
       clearTimeout(timer5)
+      clearTimeout(timer6)
     }
   }, []);
 
   return (
     <>
-      <RevealSlides presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
+      <RevealSlides controlsLayout={controlsLayout} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
         <section>
           <h1>Slide 1</h1>
           <p>{text}</p>
         </section>
-        <section>Slide 2</section>
-      </RevealSlides>
-      {useCustomTheme && <link rel="stylesheet" href="/src/custom_theme_starter.css" />}
+        <section>
+          Slide 2
+          <aside className="notes">
+            Shhh, these are your private notes 📝
+          </aside>
+        </section>
+      {useCustomTheme && <link rel="stylesheet" href="custom_theme_starter.css" />}
+      </RevealSlides> 
     </>
   )
 }
