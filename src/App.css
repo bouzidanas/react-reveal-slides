@@ -6,3 +6,18 @@
   padding: 2rem;
   text-align: center;
 }
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@counter-style emoji {
+  system: fixed;
+  symbols: "💫" "\1F4C8" "\2728";
+  suffix: " ";
+}

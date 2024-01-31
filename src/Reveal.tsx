@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import Reveal from "reveal.js";
 
 import "reveal.js/dist/reveal.css";
@@ -334,351 +334,77 @@ const defaultConfigProps = {
 
 const themes = [ "black", "white", "league", "beige", "sky", "night", "serif", "simple", "solarized", "blood", "moon", "night", "none"];
 
-// interface configProps {
-//     // Display presentation control arrows
-//     controls?: boolean;
-
-//     // Help the user learn the controls by providing hints, for example by
-//     // bouncing the down arrow when they first encounter a vertical slide
-//     controlsTutorial?: boolean;
-
-//     // Determines where controls appear, "edges" or "bottom-right"
-//     controlsLayout?: "bottom-right" | "edges";
-
-//     // Visibility rule for backwards navigation arrows; "faded", "hidden"
-//     // or "visible"
-//     controlsBackArrows?: "faded" | "hidden" | "visible";
-
-//     // Display a presentation progress bar
-//     progress?: boolean;
-
-//     // Display the page number of the current slide
-//     // - true:    Show slide number
-//     // - false:   Hide slide number
-//     //
-//     // Can optionally be set as a string that specifies the number formatting:
-//     // - "h.v":   Horizontal . vertical slide number (default)
-//     // - "h/v":   Horizontal / vertical slide number
-//     // - "c":   Flattened slide number
-//     // - "c/t":   Flattened slide number / total slides
-//     //
-//     // Alternatively, you can provide a function that returns the slide
-//     // number for the current slide. The function should take in a slide
-//     // object and return an array with one string [slideNumber] or
-//     // three strings [n1,delimiter,n2]. See #formatSlideNumber().
-//     slideNumber?: boolean;
-
-//     // Can be used to limit the contexts in which the slide number appears
-//     // - "all":      Always show the slide number
-//     // - "print":    Only when printing to PDF
-//     // - "speaker":  Only in the speaker view
-//     showSlideNumber?: "all" | "print" | "speaker";
-
-//     // Use 1 based indexing for # links to match slide number (default is zero
-//     // based)
-//     hashOneBasedIndex?: boolean;
-
-//     // Add the current slide number to the URL hash so that reloading the
-//     // page/copying the URL will return you to the same slide
-//     hash?: boolean;
-
-//     // Flags if we should monitor the hash and change slides accordingly
-//     respondToHashChanges?: boolean;
-
-//     // Enable support for jump-to-slide navigation shortcuts
-//     jumpToSlide?: boolean;
-
-//     // Push each slide change to the browser history.  Implies `hash: boolean`
-//     history?: boolean;
-
-//     // Enable keyboard shortcuts for navigation
-//     keyboard?: boolean;
-
-//     // Optional function that blocks keyboard events when retuning false
-//     //
-//     // If you set this to 'focused', we will only capture keyboard events
-//     // for embedded decks when they are in focus
-//     keyboardCondition?: null | "focused" | ((event: KeyboardEvent) => boolean);
-
-//     // Disables the default reveal.js slide layout (scaling and centering)
-//     // so that you can use custom CSS layout
-//     disableLayout?: boolean;
-
-//     // Enable the slide overview mode
-//     overview?: boolean;
-
-//     // Vertical centering of slides
-//     center?: boolean;
-
-//     // Enables touch navigation on devices with touch input
-//     touch?: boolean;
-
-//     // Loop the presentation
-//     loop?: boolean;
-
-//     // Change the presentation direction to be RTL
-//     rtl?: boolean;
-
-//     // Changes the behavior of our navigation directions.
-//     //
-//     // "default"
-//     // Left/right arrow keys step between horizontal slides, up/down
-//     // arrow keys step between vertical slides. Space key steps through
-//     // all slides (both horizontal and vertical).
-//     //
-//     // "linear"
-//     // Removes the up/down arrows. Left/right arrows step through all
-//     // slides (both horizontal and vertical).
-//     //
-//     // "grid"
-//     // When this is enabled, stepping left/right from a vertical stack
-//     // to an adjacent vertical stack will land you at the same vertical
-//     // index.
-//     //
-//     // Consider a deck with six slides ordered in two vertical stacks:
-//     // 1.1    2.1
-//     // 1.2    2.2
-//     // 1.3    2.3
-//     //
-//     // If you're on slide 1.3 and navigate right, you will normally move
-//     // from 1.3 -> 2.1. If "grid" is used, the same navigation takes you
-//     // from 1.3 -> 2.3.
-//     navigationMode?: "default" | "linear" | "grid";
-
-//     // Randomizes the order of slides each time the presentation loads
-//     shuffle?: boolean;
-
-//     // Turns fragments on and off globally
-//     fragments?: boolean;
-
-//     // Flags whether to include the current fragment in the URL,
-//     // so that reloading brings you to the same fragment position
-//     fragmentInURL?: boolean;
-
-//     // Flags if the presentation is running in an embedded mode,
-//     // i.e. contained within a limited portion of the screen
-//     embedded?: boolean;
-
-//     // Flags if we should show a help overlay when the question-mark
-//     // key is pressed
-//     help?: boolean;
-
-//     // Flags if it should be possible to pause the presentation (blackout)
-//     pause?: boolean;
-
-//     // Flags if speaker notes should be visible to all viewers
-//     showNotes?: boolean;
-
-//     // Global override for autolaying embedded media (video/audio/iframe)
-//     // - null:   Media will only autoplay if data-autoplay is present
-//     // - true:   All media will autoplay, regardless of individual setting
-//     // - false:  No media will autoplay, regardless of individual setting
-//     autoPlayMedia?: null | boolean;
-
-//     // Global override for preloading lazy-loaded iframes
-//     // - null?  Iframes with data-src AND data-preload will be loaded when within
-//     //           the viewDistance, iframes with only data-src will be loaded when visible
-//     // - true:   All iframes with data-src will be loaded when within the viewDistance
-//     // - false:  All iframes with data-src will be loaded only when visible
-//     preloadIframes?: null | boolean;
-
-//     // Can be used to globally disable auto-animation
-//     autoAnimate?: boolean;
-
-//     // Optionally provide a custom element matcher that will be
-//     // used to dictate which elements we can animate between.
-//     autoAnimateMatcher?: null | ((from: HTMLElement, to: HTMLElement) => boolean);
-
-//     // Default settings for our auto-animate transitions, can be
-//     // overridden per-slide or per-element via data arguments
-//     autoAnimateEasing?: string;
-//     autoAnimateDuration?: number;
-//     autoAnimateUnmatched?: boolean;
-
-//     // CSS properties that can be auto-animated. Position & scale
-//     // is matched separately so there's no need to include styles
-//     // like top/right/bottom/left, width/height or margin.
-//     autoAnimateStyles?: ("opacity" | "color" | "background-color" | "padding" | "font-size" | "line-height" | "letter-spacing" | "border-width" | "border-color" | "border-radius" | "outline" | "outline-offset")[] | undefined;
-
-//     // Controls automatic progression to the next slide
-//     // - 0:      Auto-sliding only happens if the data-autoslide HTML attribute
-//     //           is present on the current slide or fragment
-//     // - 1+:     All slides will progress automatically at the given interval
-//     // - false:  No auto-sliding, even if data-autoslide is present
-//     autoSlide?: number | false;
-
-//     // Stop auto-sliding after user input
-//     autoSlideStoppable?: boolean;
-
-//     // Use this method for navigation when auto-sliding (defaults to navigateNext)
-//     autoSlideMethod?: null | (() => void);
-
-//     // Specify the average time in seconds that you think you will spend
-//     // presenting each slide. This is used to show a pacing timer in the
-//     // speaker view
-//     defaultTiming?: null | number;
-
-//     // Enable slide navigation via mouse wheel
-//     mouseWheel?: boolean;
-
-//     // Opens links in an iframe preview overlay
-//     // Add `data-preview-link` and `data-preview-link="false"` to customise each link
-//     // individually
-//     previewLinks?: boolean;
-
-//     // Exposes the reveal.js API through window.postMessage
-//     postMessage?: boolean;
-
-//     // Dispatches all reveal.js events to the parent window through postMessage
-//     postMessageEvents?: boolean;
-
-//     // Focuses body when page changes visibility to ensure keyboard shortcuts work
-//     focusBodyOnPageVisibilityChange?: boolean;
-
-//     // Transition style
-//     transition?: "none" | "slide" | "fade" | "convex" | "concave" | "zoom";
-
-//     // Transition speed
-//     transitionSpeed?: "default" | "fast" | "slow";
-
-//     // Transition style for full page slide backgrounds
-//     backgroundTransition?: "fade" | "slide" | "convex" | "concave" | "zoom";
-
-//     // The maximum number of pages a single slide can expand onto when printing
-//     // to PDF, unlimited by default
-//     pdfMaxPagesPerSlide?: number;
-
-//     // Prints each fragment on a separate slide
-//     pdfSeparateFragments?: boolean;
-
-//     // Offset used to reduce the height of content within exported PDF pages.
-//     // This exists to account for environment differences based on how you
-//     // print to PDF. CLI printing options, like phantomjs and wkpdf, can end
-//     // on precisely the total height of the document whereas in-browser
-//     // printing has to end one pixel before.
-//     pdfPageHeightOffset?: number;
-
-//     // Number of slides away from the current that are visible
-//     viewDistance?: number;
-
-//     // Number of slides away from the current that are visible on mobile
-//     // devices. It is advisable to set this to a lower number than
-//     // viewDistance in order to save resources.
-//     mobileViewDistance?: number;
-
-//     // The display mode that will be used to show slides
-//     display?: string;
-
-//     // Hide cursor if inactive
-//     hideInactiveCursor?: boolean;
-
-//     // Time before the cursor is hidden (in ms)
-//     hideCursorTime?: number;
-
-//     // The "normal" size of the presentation, aspect ratio will be preserved
-//     // when the presentation is scaled to fit different resolutions
-//     width?: number;
-//     height?: number;
-
-//     // Factor of the display size that should remain empty around the content
-//     margin?: number;
-
-//     // Bounds for smallest/largest possible scale to apply to content
-//     minScale?: number;
-//     maxScale?: number;
-
-//     // Parallax background image
-//     parallaxBackgroundImage?: string; // CSS syntax, e.g. "a.jpg"
-
-//     // Parallax background size
-//     parallaxBackgroundSize?: string; // CSS syntax, e.g. "3000px 2000px"
-
-//     // Parallax background repeat
-//     parallaxBackgroundRepeat?:
-//     | "repeat"
-//     | "repeat-x"
-//     | "repeat-y"
-//     | "no-repeat"
-//     | "initial"
-//     | "inherit";
-//     // repeat/repeat-x/repeat-y/no-repeat/initial/inherit
-
-//     // Parallax background position
-//     parallaxBackgroundPosition?: string; // CSS syntax, e.g. "top left"
-
-//     // Amount of pixels to move the parallax background per slide step
-//     parallaxBackgroundHorizontal?: null | number;
-//     parallaxBackgroundVertical?: null | number;
-
-//     // Can be used to initialize reveal.js in one of the following views:
-//     // - print:   Render the presentation so that it can be printed to PDF
-//     // - scroll:  Show the presentation as a tall scrollable page with scroll
-//     //            triggered animations
-//     view?: null | "print" | "scroll";
-
-//     // Adjusts the height of each slide in the scroll view.
-//     // - full:       Each slide is as tall as the viewport
-//     // - compact:    Slides are as small as possible, allowing multiple slides
-//     //               to be visible in parallel on tall devices
-//     scrollLayout?: "full" | "compact";
-
-//     // Control how scroll snapping works in the scroll view.
-//     // - false:   	No snapping, scrolling is continuous
-//     // - proximity:  Snap when close to a slide
-//     // - mandatory:  Always snap to the closest slide
-//     //
-//     // Only applies to presentations in scroll view.
-//     scrollSnap?: "mandatory" | "proximity" | false;
-
-//     // Enables and configure the scroll view progress bar.
-//     // - 'auto':    Show the scrollbar while scrolling, hide while idle
-//     // - true:      Always show the scrollbar
-//     // - false:     Never show the scrollbar
-//     scrollProgress?: "auto" | boolean;
-
-//     // Automatically activate the scroll view when we the viewport falls
-//     // below the given width.
-//     scrollActivationWidth?: number;
-
-//     // Should we automatically sort and set indices for fragments
-//     // at each sync? (See Reveal.sync)
-//     sortFragmentsOnSync?: boolean;
-
-//     // Script dependencies to load
-//     dependencies?: string[];
-
-//     // Plugin objects to register and use for this presentation
-//     plugins?: Reveal.PluginFunction[];
-// }
+// https://mzl.la/2LP6mjP
+// Comparison function to JSON.stringify that can handle
+// circular references and ignores internal React properties.
+const circular = () => {
+    const seen = new WeakSet()
+    return (key: string, value: unknown) => {
+      if (key.startsWith('_')) return // Don't compare React's internal props.
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) return
+        seen.add(value)
+      }
+      return value
+    }
+}
+
+type RevealHandle = {
+    getReveal: () => Reveal.Api | undefined;
+};
+
+interface RevealSlidesProps extends Reveal.Options {
+    theme?: string;
+    presState?: Reveal.RevealState;
+    disable?: boolean;
+    transitionOnThemeLoaded?: string;
+    onStateChange?: (state: Reveal.RevealState) => void;
+    children ?: React.ReactNode[] | React.ReactNode;
+}
 
 // RevealSlides is the main component.
-export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv": -1, "indexf": -1, "paused": false, "overview": false }, disable=false, transitionOnThemeLoaded="opacity 500ms ease-in-out", onStateChange, children, ...configProps} : {theme?: string, presState?: Reveal.RevealState, disable?: boolean, transitionOnThemeLoaded?: string, onStateChange?: (state: Reveal.RevealState) => void, children ?: React.ReactNode[] | React.ReactNode} & Reveal.Options) => {
+export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme="black", presState={"indexh": -1, "indexv": -1, "indexf": -1, "paused": false, "overview": false }, disable=false, transitionOnThemeLoaded="opacity 500ms ease-in-out", onStateChange, children, ...configProps} : RevealSlidesProps, ref: React.Ref<RevealHandle>) => {
     const [visible, setVisible] = useState(false);
-    const presStateStr = JSON.stringify(presState);
 
     const revealDivRef = useRef<HTMLDivElement>(null);
+    const revealRef = useRef<Reveal.Api>();
+    
+    const presStateStr = JSON.stringify(presState);
+    const childrenStr = JSON.stringify(children, circular());
+
+    useImperativeHandle(ref, () => ({
+        getReveal: () => {
+            return revealRef.current;
+        }
+    }));
 
     // This function is likely to be removed in the future.
     const setupConfig = (config: Reveal.Options): object => {
         return { ...defaultConfigProps, ...config };
     };
 
+    // The numerous useEffect calls are because Reveal is not a React component/hook and yet
+    // it manipulates the DOM and has its own state (independently). Thus, using the Reveal API
+    // will cause effects. This makes useEffect the best place to call the Reveal API functions
+    // such as initialize, configure, and setState.
+
     // Initialize reveal.js
     useEffect(() => {
         const isInitialized = revealDivRef.current?.classList.contains("reveal");
         if (isInitialized) return;
-        revealDivRef.current?.classList.add("reveal");
+        revealDivRef.current!.classList.add("reveal");
         const configuration = setupConfig(configProps);
-        Reveal.initialize(configuration).then(() => {
+        revealRef.current = new Reveal(revealDivRef.current!, configuration);
+        revealRef.current.initialize().then(() => {
             // reveal.js is ready
             // For some yet to be determined reason, the highlight plugin is not initializing.
             // Setting highlight config option highlightOnLoad to true (before passing to initialize function)
             // does not work
             // To Do: make sure the highlight plugin only changes the HTML involving the code once instead of many times.
             // Possible solution is to make a change to the plugin init function.
-            const highlighter = Reveal.getPlugin("highlight");
+            const highlighter = revealRef.current!.getPlugin("highlight");
             if (highlighter) {
-                highlighter.init && highlighter.init(Reveal);
+                highlighter.init && highlighter.init(revealRef.current!);
             }
 
             // const presState = JSON.parse(presStateStr);
@@ -688,43 +414,44 @@ export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv":
 
             if (onStateChange) {
                 // Send slide position indecies back to Streamlit on initialization and on slide change
-                onStateChange(Reveal.getState());
+                onStateChange(revealRef.current!.getState());
 
-                Reveal.on("slidechanged", () => {
-                    onStateChange(Reveal.getState());
+                revealRef.current!.on("slidechanged", () => {
+                    onStateChange(revealRef.current!.getState());
                 });
 
-                Reveal.on("fragmentshown", () => {
+                revealRef.current!.on("fragmentshown", () => {
                     // event.fragment = the fragment DOM element
-                    onStateChange(Reveal.getState());
+                    onStateChange(revealRef.current!.getState());
                 });
-                Reveal.on("fragmenthidden", () => {
+                revealRef.current!.on("fragmenthidden", () => {
                     // event.fragment = the fragment DOM element
-                    onStateChange(Reveal.getState());
+                    onStateChange(revealRef.current!.getState());
                 });
-                Reveal.on("overviewshown", () => {
+                revealRef.current!.on("overviewshown", () => {
                     // event.overview = the overview DOM element
-                    onStateChange(Reveal.getState());
+                    onStateChange(revealRef.current!.getState());
                 });
-                Reveal.on("overviewhidden", () => {
+                revealRef.current!.on("overviewhidden", () => {
                     // event.overview = the overview DOM element
-                    onStateChange(Reveal.getState());
+                    onStateChange(revealRef.current!.getState());
                 });
-                Reveal.on("paused", () => {
+                revealRef.current!.on("paused", () => {
                     // event.fragment = the fragment DOM element
-                    onStateChange(Reveal.getState());
+                    onStateChange(revealRef.current!.getState());
                 });
-                Reveal.on("resumed", () => {
+                revealRef.current!.on("resumed", () => {
                     // event.fragment = the fragment DOM element
-                    onStateChange(Reveal.getState());
+                    onStateChange(revealRef.current!.getState());
                 });
             }
         });
 
         return () => {
             // code to run on component unmount goes here
+            if (!revealRef.current) return;
             try {
-                Reveal.destroy();
+                revealRef.current!.destroy();
                 console.log("Reveal instance destroyed");
             } catch (e) {
                 console.warn("Reveal.destroy() call failed.");
@@ -746,7 +473,7 @@ export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv":
         import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
             .then(() => {
                 try {
-                    Reveal.layout();
+                    revealRef.current!.layout();
                     setVisible(true);
                 } catch (e) {
                     console.warn("Reveal.layout() call failed.");
@@ -757,33 +484,10 @@ export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv":
             });
     }, [theme]);
 
-    // // Reconfigure reveal.js if config changes
-    // useEffect(() => {
-    //     if (configStr === "undefined") return;
-    //     const existingPlugins = Reveal.getPlugins();
-    //     const config = setupConfig(configStr);
-
-    //     // Add and register plugins that are not already loaded
-    //     const existingPluginsList: string[] = Object.values(existingPlugins).map(
-    //         (plugin: Reveal.Plugin) => plugin.id
-    //     );
-    //     if ("plugins" in config) {
-    //         const plugins = config["plugins"];
-    //         (plugins as string[]).forEach((plugin: string) => {
-    //             if (plugin && existingPluginsList.indexOf(plugin) === -1) {
-    //                 Reveal.registerPlugin(includedPlugins[plugin]());
-    //             }
-    //         });
-
-    //     }
-    //     // Reconfigure reveal.js
-    //     Reveal.configure(config);
-    // }, [configStr]);
-
     useEffect(() => {
-        if (Reveal.isReady()) {
-            Reveal.configure(configProps);
-            Reveal.layout();
+        if (revealRef.current?.isReady()) {
+            revealRef.current.configure(configProps);
+            revealRef.current.layout();
         }
     }, [configProps]);
 
@@ -792,23 +496,23 @@ export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv":
     // set the initial state if it is passed in from Streamlit.
     useEffect(() => {
         const presState = JSON.parse(presStateStr);
-        if (Reveal.isReady() && Object.keys(presState).length !== 0) {
-            Reveal.setState(presState);
+        if (revealRef.current?.isReady() && Object.keys(presState).length !== 0) {
+            revealRef.current.setState(presState);
         }
     }, [presStateStr]);
 
     // Disable reveal.js if disable is true
     useEffect(() => {
-        if (Reveal.isReady()) {
+        if (revealRef.current?.isReady()) {
             if (disable) {
-                Reveal.togglePause(true);
-                const viewport = Reveal.getViewportElement();
+                revealRef.current.togglePause(true);
+                const viewport = revealRef.current.getViewportElement();
                 if (viewport) {
                     viewport.style.pointerEvents = "none";
                 }
             } else {
-                Reveal.togglePause(false);
-                const viewport = Reveal.getViewportElement();
+                revealRef.current.togglePause(false);
+                const viewport = revealRef.current.getViewportElement();
                 if (viewport) {
                     viewport.style.pointerEvents = "auto";
                 }
@@ -817,8 +521,18 @@ export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv":
     }, [disable]);
 
     useEffect(() => {
-        if (Reveal.isReady()) {
-            Reveal.layout();
+        console.log("children adjust");
+        const children = JSON.parse(childrenStr);
+        if (revealRef.current?.isReady() && children) {
+            revealRef.current.sync();
+            revealRef.current.layout();
+        }
+    }, [childrenStr]);
+
+    useLayoutEffect(() => {
+        console.log("layout adjust");
+        if (revealRef.current?.isReady()) {
+            revealRef.current.layout();
         }
     });
 
@@ -829,4 +543,4 @@ export const RevealSlides = ({ theme="black", presState={"indexh": -1, "indexv":
             </div>
         </div>
     );
-};
+});
