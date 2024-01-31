@@ -9,7 +9,7 @@
 - Embed React components inside presentations
   - By default, presentation content can be written entirely in JSX
 - Dynamically alter presentation content
-- Dynamically change configuration options. Change theme, transition, and more
+- Dynamically change configuration options. Supports all config options. Change theme, transition, and more
 - Control slide state from outside the presentation
   - Via props
   - Via Reveal.js API accessed through refs
