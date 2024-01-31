@@ -4,8 +4,17 @@
   Create and add <a href="https://revealjs.com/">reveal.js</a> HTML presentations entirely in react!
 </p>
 
-## Features
-
+## Overview
+- Add multiple slide decks to your React app
+- Embed React components inside presentations
+  - By default, presentation content can be written entirely in JSX
+- Dynamically alter presentation content
+- Dynamically change configuration options. Change theme, transition, and more
+- Control slide state from outside the presentation
+  - Via props
+  - Via Reveal.js API accessed through refs
+- Includes slide state change callback
+- Accepts Reveal.js plugins
 
 ## Installation
 
