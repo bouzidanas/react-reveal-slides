@@ -27,7 +27,7 @@ const CodePrezCard = ({code = "", lineNumbers, children}:{code?: string, lineNum
   );
 }
 
-const showIntro = true;
+const showIntro = false;
 
 function App() {
   const [theme, setTheme] = useState("night")
@@ -91,7 +91,7 @@ function App() {
 
   return (
     <>
-      <RevealSlides key="rs-2" controlsLayout={controlsLayout} controls={false} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
+      <RevealSlides key="rs-2" controlsLayout={controlsLayout} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
         <section key="0" data-background-color="#0c1821">
           <section key="0-0">
             <h2 style={{color: "#E7AD52", marginTop: "-0.5rem"}}>react-reveal-slides</h2>
