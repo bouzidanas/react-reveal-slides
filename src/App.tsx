@@ -27,7 +27,7 @@ import RevealZoom from 'reveal.js/plugin/zoom/zoom';
 //   );
 // }
 
-const showIntro = true;
+const showIntro = false;
 
 function App() {
   const [theme, setTheme] = useState("night")

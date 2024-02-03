@@ -350,7 +350,7 @@ const circular = () => {
 }
 
 type RevealHandle = {
-    getReveal: () => Reveal.Api | undefined;
+    getReveal: () => Reveal.Api | null;
 };
 
 interface RevealExtendedOptions extends Reveal.Options {
@@ -395,11 +395,12 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
     const [visible, setVisible] = useState(false);
 
     const revealDivRef = useRef<HTMLDivElement>(null);
-    const revealRef = useRef<Reveal.Api>();
+    const revealRef = useRef<Reveal.Api | null>(null);
     
     const presStateStr = JSON.stringify(presState);
     const childrenStr = JSON.stringify(children, circular());
 
+    // Expose the Reveal API to the parent component
     useImperativeHandle(ref, () => ({
         getReveal: () => {
             return revealRef.current;
@@ -411,16 +412,15 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         return { ...defaultConfigProps, ...config };
     };
 
-    // The numerous useEffect calls are because Reveal is not a React component/hook and yet
-    // it manipulates the DOM and has its own state (independently). Thus, using the Reveal API
-    // will cause effects. This makes useEffect the best place to call the Reveal API functions
-    // such as initialize, configure, and setState.
+    // The numerous useEffect calls are because Reveal is not a React function and yet it makes
+    // changes to the DOM and has its own state (independently). So it is important to make
+    // sure react has rendered the elements before Reveal alters them. To put it another way,
+    // Reveal API will cause effects. This makes useEffect the best place to call the Reveal API 
+    // functions such as initialize, configure, and setState.
 
     // Initialize reveal.js
     useEffect(() => {
-        const isInitialized = revealDivRef.current?.classList.contains("reveal");
-        if (isInitialized) return;
-        revealDivRef.current!.classList.add("reveal");
+        if (revealRef.current) return;
         const configuration = setupConfig(configProps);
         revealRef.current = new Reveal(revealDivRef.current!, configuration);
         revealRef.current.initialize().then(() => {
@@ -435,11 +435,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
                 highlighter.init && highlighter.init(revealRef.current!);
             }
 
-            // const presState = JSON.parse(presStateStr);
-            // if (Object.keys(presState).length !== 0) {
-            //     Reveal.setState(presState);
-            // }
-
+            // Add state change handling
             if (onStateChange) {
                 // Send slide position indecies back to Streamlit on initialization and on slide change
                 onStateChange(revealRef.current!.getState());
@@ -476,11 +472,10 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         });
 
         return () => {
-            // code to run on component unmount goes here
             if (!revealRef.current) return;
             try {
                 revealRef.current!.destroy();
-                console.log("Reveal instance destroyed");
+                revealRef.current = null;
             } catch (e) {
                 console.warn("Reveal.destroy() call failed.");
             }
@@ -489,15 +484,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
 
     useEffect(() => {
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
-        // To do: remove or disable previously imported css. When the list of
-        // css imports exceed about 25, the page no longer updates.
-        // NOTE: According to the webpack.config.js file found in the react-scripts node_module,
-        // the style-loader is used in development mode and MiniCssExtractPlugin.loader is used in
-        // production mode. This means that the css is injected into the page (by adding `<style>`
-        // elements to header) in development mode and is extracted into a separate file
-        // (and adding link elements to header with href pointing to files) in production mode.
-        // It may be possible to alter settings/options to force these loaders to replace the css
-        // added for previous themes with the css for the current.
+        // Dynamically import the theme CSS file
         import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
             .then(() => {
                 try {
@@ -518,7 +505,6 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             revealRef.current.layout();
         }
     }, [configProps]);
-
 
     // When reveal.js is ready (after initialization or reconfiguration),
     // set the initial state if it is passed in from Streamlit.
@@ -548,6 +534,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         }
     }, [disable]);
 
+    // When the children change, sync slides and adjust the layout
     useEffect(() => {
         console.log("children adjust");
         const children = JSON.parse(childrenStr);
@@ -557,6 +544,10 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         }
     }, [childrenStr]);
 
+    // Adjust layout after every render.
+    // There are many things that can cause the layout to change,
+    // including changes in the parent, configuration options,
+    // container size, and changes in the child elements.
     useLayoutEffect(() => {
         console.log("layout adjust");
         if (revealRef.current?.isReady()) {
@@ -565,7 +556,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
     });
 
     return (
-        <div ref={revealDivRef} style={{ opacity: visible ? 1 : 0, transition: transitionOnThemeLoaded }}>
+        <div className="reveal" ref={revealDivRef} style={{ opacity: visible ? 1 : 0, transition: transitionOnThemeLoaded }}>
             <div className="slides">
                 {children}
             </div>
