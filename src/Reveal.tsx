@@ -353,7 +353,35 @@ type RevealHandle = {
     getReveal: () => Reveal.Api | undefined;
 };
 
-interface RevealSlidesProps extends Reveal.Options {
+interface RevealExtendedOptions extends Reveal.Options {
+     // Can be used to initialize reveal.js in one of the following views:
+    // - print:   Render the presentation so that it can be printed to PDF
+    // - scroll:  Show the presentation as a tall scrollable page with scroll
+    //            triggered animations
+    view?: "print" | "scroll" | null,
+
+    // Adjusts the height of each slide in the scroll view.
+    // - full:       Each slide is as tall as the viewport
+    // - compact:    Slides are as small as possible, allowing multiple slides
+    //               to be visible in parallel on tall devices
+    scrollLayout?: "full" | "compact",
+
+    // Control how scroll snapping works in the scroll view.
+    // - false:   	No snapping, scrolling is continuous
+    // - proximity:  Snap when close to a slide
+    // - mandatory:  Always snap to the closest slide
+    //
+    // Only applies to presentations in scroll view.
+    scrollSnap?: false | "proximity" | "mandatory",
+
+    // Enables and configure the scroll view progress bar.
+    // - 'auto':    Show the scrollbar while scrolling, hide while idle
+    // - true:      Always show the scrollbar
+    // - false:     Never show the scrollbar
+    scrollProgress?: "auto" | boolean,
+}
+
+interface RevealSlidesProps extends RevealExtendedOptions {
     theme?: string;
     presState?: Reveal.RevealState;
     disable?: boolean;

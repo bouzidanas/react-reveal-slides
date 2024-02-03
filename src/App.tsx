@@ -10,22 +10,22 @@ import RevealZoom from 'reveal.js/plugin/zoom/zoom';
 
 // import './custom_theme_starter.css';
 
-const CodePrezCard = ({code = "", lineNumbers, children}:{code?: string, lineNumbers?: string, children?: (React.ReactNode[] | React.ReactNode)}) => {
-  return (
-    <div style={{width: "70%", height: "fit-content"}}>
-      <pre>
-        <code data-line-numbers={lineNumbers}>
-          {code}
-        </code>
-      </pre>
-      <div style={{width: "100%", height: "200px"}}>
-        <RevealSlides key="rs-2" keyboardCondition="focused" embedded>
-          {children}
-        </RevealSlides>
-      </div>
-    </div>
-  );
-}
+// const CodePrezCard = ({code = "", lineNumbers, children}:{code?: string, lineNumbers?: string, children?: (React.ReactNode[] | React.ReactNode)}) => {
+//   return (
+//     <div style={{width: "70%", height: "fit-content"}}>
+//       <pre>
+//         <code data-line-numbers={lineNumbers}>
+//           {code}
+//         </code>
+//       </pre>
+//       <div style={{width: "100%", height: "200px"}}>
+//         <RevealSlides key="rs-2" keyboardCondition="focused" embedded>
+//           {children}
+//         </RevealSlides>
+//       </div>
+//     </div>
+//   );
+// }
 
 const showIntro = true;
 
@@ -91,7 +91,7 @@ function App() {
 
   return (
     <>
-      <RevealSlides key="rs-2" controlsLayout={controlsLayout} controls={false} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
+      <RevealSlides key="rs-2" view="scroll" controlsLayout={controlsLayout} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
         <section key="0" data-background-color="#0c1821">
           <section key="0-0">
             <h2 style={{color: "#E7AD52", marginTop: "-0.5rem"}}>react-reveal-slides</h2>
@@ -122,7 +122,8 @@ function App() {
             </aside>
           </section>
           <section key="1-3">
-            <CodePrezCard code={`
+            <p>So, if you can make a React component, you can make a Reveal.js slide.</p>
+            {/* <CodePrezCard code={`
               <RevealSlides>
                 <section>
                   <h1>Slide 1</h1>
@@ -138,7 +139,7 @@ function App() {
               <section>
                 <h1>Slide 2</h1>
               </section>
-            </CodePrezCard> 
+            </CodePrezCard>  */}
           </section>
         </section>
       {useCustomTheme && <link rel="stylesheet" href="/custom_theme_starter.css" />}
