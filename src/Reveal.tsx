@@ -487,6 +487,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
     }, []);
 
     useEffect(() => {
+        console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
         import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
