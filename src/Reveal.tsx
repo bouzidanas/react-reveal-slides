@@ -379,6 +379,10 @@ interface RevealExtendedOptions extends Reveal.Options {
     // - true:      Always show the scrollbar
     // - false:     Never show the scrollbar
     scrollProgress?: "auto" | boolean,
+
+    // Automatically activate the scroll view when we the viewport falls
+    // below the given width.
+    scrollActivationWidth?: number,
 }
 
 interface RevealSlidesProps extends RevealExtendedOptions {

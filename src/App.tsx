@@ -30,7 +30,7 @@ import RevealZoom from 'reveal.js/plugin/zoom/zoom';
 const showIntro = false;
 
 function App() {
-  const [theme, setTheme] = useState("night")
+  const [theme, setTheme] = useState("black")
   const [firstSlideText, setFirstSlideText] = useState("Create dynamic Reveal.js slides")
   const [presState, setPresState] = useState({"indexh": -1, "indexv": -1, "indexf": -1, "paused": false, "overview": false })
   const [useCustomTheme] = useState(false);
@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     if (!showIntro) return;
     const timer = setTimeout(() => {
-      setTheme("none")
+      setTheme("black")
     }, 3*timeDelta);
 
     const timer2 = setTimeout(() => {
