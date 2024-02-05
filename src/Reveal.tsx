@@ -411,6 +411,57 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         }
     }));
 
+    const setupAfterInit = () => {
+        // reveal.js is ready
+        // For some yet to be determined reason, the highlight plugin is not initializing.
+        // Setting highlight config option highlightOnLoad to true (before passing to initialize function)
+        // does not work
+        // To Do: make sure the highlight plugin only changes the HTML involving the code once instead of many times.
+        // Possible solution is to make a change to the plugin init function.
+        const highlighter = revealRef.current!.getPlugin("highlight");
+        if (highlighter) {
+            highlighter.init && highlighter.init(revealRef.current!);
+        }
+
+        revealRef.current!.layout();
+        setVisible(true);
+
+        // Add state change handling
+        if (onStateChange) {
+            // Send slide position indecies back to Streamlit on initialization and on slide change
+            onStateChange(revealRef.current!.getState());
+
+            revealRef.current!.on("slidechanged", () => {
+                onStateChange(revealRef.current!.getState());
+            });
+
+            revealRef.current!.on("fragmentshown", () => {
+                // event.fragment = the fragment DOM element
+                onStateChange(revealRef.current!.getState());
+            });
+            revealRef.current!.on("fragmenthidden", () => {
+                // event.fragment = the fragment DOM element
+                onStateChange(revealRef.current!.getState());
+            });
+            revealRef.current!.on("overviewshown", () => {
+                // event.overview = the overview DOM element
+                onStateChange(revealRef.current!.getState());
+            });
+            revealRef.current!.on("overviewhidden", () => {
+                // event.overview = the overview DOM element
+                onStateChange(revealRef.current!.getState());
+            });
+            revealRef.current!.on("paused", () => {
+                // event.fragment = the fragment DOM element
+                onStateChange(revealRef.current!.getState());
+            });
+            revealRef.current!.on("resumed", () => {
+                // event.fragment = the fragment DOM element
+                onStateChange(revealRef.current!.getState());
+            });
+        }
+    };
+
     // This function is likely to be removed in the future.
     const setupConfig = (config: Reveal.Options): object => {
         return { ...defaultConfigProps, ...config };
@@ -427,53 +478,14 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         if (revealRef.current) return;
         const configuration = setupConfig(configProps);
         revealRef.current = new Reveal(revealDivRef.current!, configuration);
-        revealRef.current.initialize().then(() => {
-            // reveal.js is ready
-            // For some yet to be determined reason, the highlight plugin is not initializing.
-            // Setting highlight config option highlightOnLoad to true (before passing to initialize function)
-            // does not work
-            // To Do: make sure the highlight plugin only changes the HTML involving the code once instead of many times.
-            // Possible solution is to make a change to the plugin init function.
-            const highlighter = revealRef.current!.getPlugin("highlight");
-            if (highlighter) {
-                highlighter.init && highlighter.init(revealRef.current!);
-            }
 
-            // Add state change handling
-            if (onStateChange) {
-                // Send slide position indecies back to Streamlit on initialization and on slide change
-                onStateChange(revealRef.current!.getState());
-
-                revealRef.current!.on("slidechanged", () => {
-                    onStateChange(revealRef.current!.getState());
-                });
-
-                revealRef.current!.on("fragmentshown", () => {
-                    // event.fragment = the fragment DOM element
-                    onStateChange(revealRef.current!.getState());
-                });
-                revealRef.current!.on("fragmenthidden", () => {
-                    // event.fragment = the fragment DOM element
-                    onStateChange(revealRef.current!.getState());
-                });
-                revealRef.current!.on("overviewshown", () => {
-                    // event.overview = the overview DOM element
-                    onStateChange(revealRef.current!.getState());
-                });
-                revealRef.current!.on("overviewhidden", () => {
-                    // event.overview = the overview DOM element
-                    onStateChange(revealRef.current!.getState());
-                });
-                revealRef.current!.on("paused", () => {
-                    // event.fragment = the fragment DOM element
-                    onStateChange(revealRef.current!.getState());
-                });
-                revealRef.current!.on("resumed", () => {
-                    // event.fragment = the fragment DOM element
-                    onStateChange(revealRef.current!.getState());
-                });
-            }
-        });
+        if (theme || theme !== 'none' || themes.includes(theme)) {
+            // Dynamically import the theme CSS file
+            import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
+                .then(() => revealRef.current!.initialize().then(setupAfterInit), () => revealRef.current!.initialize().then(setupAfterInit));     
+        } else {
+            revealRef.current.initialize().then(setupAfterInit);
+        }
 
         return () => {
             if (!revealRef.current) return;
@@ -487,13 +499,14 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
     }, []);
 
     useEffect(() => {
+        console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
         import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
             .then(() => {
                 try {
                     revealRef.current!.layout();
-                    setVisible(true);
+                    // setVisible(true);
                 } catch (e) {
                     console.warn("Reveal.layout() call failed.");
                 }

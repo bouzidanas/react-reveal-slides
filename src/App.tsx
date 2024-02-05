@@ -27,7 +27,7 @@ import RevealZoom from 'reveal.js/plugin/zoom/zoom';
 //   );
 // }
 
-const showIntro = false;
+const showIntro = true;
 
 function App() {
   const [theme, setTheme] = useState("black")
@@ -41,7 +41,7 @@ function App() {
   useEffect(() => {
     if (!showIntro) return;
     const timer = setTimeout(() => {
-      setTheme("black")
+      setTheme("white")
     }, 3*timeDelta);
 
     const timer2 = setTimeout(() => {
