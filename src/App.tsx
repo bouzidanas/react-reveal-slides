@@ -35,13 +35,15 @@ function App() {
   const [presState, setPresState] = useState({"indexh": -1, "indexv": -1, "indexf": -1, "paused": false, "overview": false })
   const [useCustomTheme] = useState(false);
   const [controlsLayout] = useState<"edges" | "bottom-right" | undefined>("edges");
+  const [scrollView, setScrollView] = useState<"print" | "scroll" | null>(null);
 
   const timeDelta = 1000;
 
   useEffect(() => {
     if (!showIntro) return;
     const timer = setTimeout(() => {
-      setTheme("white")
+      setTheme("night")
+      setScrollView("scroll")
     }, 3*timeDelta);
 
     const timer2 = setTimeout(() => {
@@ -91,7 +93,7 @@ function App() {
 
   return (
     <>
-      <RevealSlides key="rs-2" view="scroll" controlsLayout={controlsLayout} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
+      <RevealSlides key="rs-2" view={scrollView} controlsLayout={controlsLayout} presState={presState} plugins={[RevealZoom, RevealNotes]} theme={theme} onStateChange={(state)=>console.log(state)} >
         <section key="0" data-background-color="#0c1821">
           <section key="0-0">
             <h2 style={{color: "#E7AD52", marginTop: "-0.5rem"}}>react-reveal-slides</h2>
@@ -105,14 +107,14 @@ function App() {
             </ul>
           </section>
         </section>
-        <section key="1" data-background-color='#bf4f41'>
+        <section key="1">
           <section key="1-0">
             <h2 style={{color: "#432534"}}> 
               Free reign over your presentation
             </h2>
             <p>This package makes no efforts to impead or restrict what you can do.</p>
           </section>
-          <section key="1-1">
+          <section key="1-1" data-background-color='#bf4f41'>
             <p>Since React creates HTML DOM elements out of JSX, there should be no reason we cant just put JSX inside of our RevealSlides component instead of the HTML markup Reveal.js normally expects.</p>
           </section>
           <section key="1-2">  
@@ -122,6 +124,26 @@ function App() {
             </aside>
           </section>
           <section key="1-3">
+            <p>So, if you can make a React component, you can make a Reveal.js slide.</p>
+          </section>
+        </section>
+        <section key="2" data-background-color='#bf4f41'>
+          <section key="2-0">
+            <h2 style={{color: "#432534"}}> 
+              Free reign over your presentation
+            </h2>
+            <p>This package makes no efforts to impead or restrict what you can do.</p>
+          </section>
+          <section key="2-1">
+            <p>Since React creates HTML DOM elements out of JSX, there should be no reason we cant just put JSX inside of our RevealSlides component instead of the HTML markup Reveal.js normally expects.</p>
+          </section>
+          <section key="2-2">  
+            <p>Simply put, React already takes care of converting JSX into something Reveal.js can work with.</p>
+            <aside className="notes">
+              Shhh, these are your private notes 📝
+            </aside>
+          </section>
+          <section key="2-3">
             <p>So, if you can make a React component, you can make a Reveal.js slide.</p>
             {/* <CodePrezCard code={`
               <RevealSlides>
