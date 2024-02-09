@@ -12,12 +12,12 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^5.0.1",
     "reveal.js": "github:bouzidanas/reveal.js"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
-    "@types/reveal.js": "^4.4.8",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react-swc": "^3.5.0",

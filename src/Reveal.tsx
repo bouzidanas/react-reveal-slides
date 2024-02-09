@@ -354,7 +354,7 @@ type RevealHandle = {
 };
 
 interface RevealExtendedOptions extends Reveal.Options {
-     // Can be used to initialize reveal.js in one of the following views:
+    // Can be used to initialize reveal.js in one of the following views:
     // - print:   Render the presentation so that it can be printed to PDF
     // - scroll:  Show the presentation as a tall scrollable page with scroll
     //            triggered animations
