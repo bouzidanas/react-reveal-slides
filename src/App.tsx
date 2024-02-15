@@ -102,7 +102,6 @@ function App() {
   const [headerFontColor, setHeaderFontColor] = useState("white");
   const [headerOpacity, setHeaderOpacity] = useState(0);
   const [headerVisible, setHeaderVisible] = useState<CSSProperties["visibility"]>("hidden");
-  const liquidImageRef = useRef<HoverEffect | null>(null);
   const liquidImageRef2 = useRef<HoverEffectHandle>(null);
   const [liquidInit, setLiquidInit] = useState(false);
 
