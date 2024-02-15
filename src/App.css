@@ -15,6 +15,18 @@
   }
 }
 
+@keyframes fadeIn2 {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 @counter-style emoji {
   system: fixed;
   symbols: "💫" "\1F4C8" "\2728";
@@ -66,10 +78,7 @@
 @keyframes firstTitleOut {
   0% {
     opacity: 1;
-    height: 5.4vw;
-  }
-  25% {
-    opacity: 2.7vw;
+    height: 5.8vw;
   }
   50% {
     opacity: 0;

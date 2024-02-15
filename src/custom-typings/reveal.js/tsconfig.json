@@ -14,7 +14,6 @@
         "forceConsistentCasingInFileNames": true
     },
     "files": [
-        "index.d.ts",
-        "reveal.js-tests.ts"
+        "index.d.ts"
     ]
 }

@@ -447,9 +447,9 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
                 revealRef.current!.on("slidechanged", () => {
                     onStateChange(revealRef.current!.getState());
                 });
-
                 revealRef.current!.on("fragmentshown", () => {
                     // event.fragment = the fragment DOM element
+                    console.log("fragment shown");
                     onStateChange(revealRef.current!.getState());
                 });
                 revealRef.current!.on("fragmenthidden", () => {
