@@ -10,6 +10,8 @@ import HoverEffect from 'hover-effect';
 import RevealNotes from 'reveal.js/plugin/notes/notes';
 import RevealZoom from 'reveal.js/plugin/zoom/zoom';
 
+import "./App.css";
+
 // import './custom_theme_starter.css';
 
 interface HoverEffectHandle {

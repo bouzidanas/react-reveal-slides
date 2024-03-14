@@ -3,7 +3,6 @@ import Reveal from "reveal.js";
 
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
-import "./App.css";
 
 // import "../node_modules/reveal.js/dist/theme/moon.css";
 
