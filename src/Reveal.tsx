@@ -348,7 +348,7 @@ const circular = () => {
     }
 }
 
-type RevealHandle = {
+export type RevealHandle = {
     getReveal: () => Reveal.Api | null;
 };
 
