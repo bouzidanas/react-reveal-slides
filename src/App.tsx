@@ -94,15 +94,16 @@ const liquidImage = ({id, ...options}:{id: string} & LiquidImageOptions) => {
   });
 }
 
-const ProjectCard = ({title, description, image, link, techStack, style}: {title: string, description: string, image: string, link: string, techStack: string[], style?: CSSProperties}) => {
+const ProjectCard = ({title, description, image, link, gif, techStack, style}: {title: string, description: string, image: string, link: string, techStack: string[], gif?: string, style?: CSSProperties}) => {
   return (
     <a href={link} target="_blank" rel="noreferrer" style={{color: "inherit"}}>
       <div className="project-card" style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "start", alignItems: "center", overflow: "hidden", borderRadius: "0.5rem",
       ...style}}>
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "55%", width: "100%", overflow: "hidden"}}>
-          <a href={link} target="_blank" rel="noreferrer" style={{height: "100%", width: "100%"}}>
-            <img src={image} alt={title} style={{maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
-          </a>
+        <div className="card-image" style={{display: "flex", justifyContent: "center", alignItems: "center", height: "55%", width: "100%", overflow: "hidden"}}>
+          <div style={{position: "relative", height: "100%", width: "100%"}}>
+            {gif && <img src={gif} alt={title} style={{maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />}
+            <img className="cover-image" src={image} alt={title} style={{position: "relative", top: "-100%", maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
+          </div>
         </div>
         <div className="card-content" style={{display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column", gap: "0.5rem", marginTop: "1rem", flex: 1}}>
           <h4 style={{color: "#f17a52", textAlign: "center", fontSize: "110%"}}> 
@@ -112,9 +113,9 @@ const ProjectCard = ({title, description, image, link, techStack, style}: {title
             {description}
           </p>
         </div>
-        <div style={{display: "flex", justifyContent: "center", alignItems: "center", margin: "0.8rem", gap: "0.3rem", flex: 0, flexFlow: "wrap"}}>
+        <div className="card-tech" style={{display: "flex", justifyContent: "center", alignItems: "center", width: "83%", padding: "0.8rem 0rem", gap: "0.3rem", flex: 0, flexFlow: "wrap", borderTop: "1px solid #eeeeee"}}>
           {techStack.map((tech, i) => (
-            <div key={i} style={{ padding: "0.4rem 0.5rem", backgroundColor: "#f17a52", color: "white", borderRadius: "0.35rem", fontSize: "85%"}}>{tech}</div>
+            <div key={i} style={{ padding: "0.4rem 0.5rem 0.26rem 0.5rem", backgroundColor: tech.split(":").length > 1 ? tech.split(":")[1] : "#f17a52", color: "white", borderRadius: "0.35rem", fontSize: "85%"}}>{tech.split(":")[0]}</div>
           ))}
         </div>
       </div>
@@ -317,17 +318,19 @@ function App() {
               style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out"}}
               title="react-reveal-slides"
               description="A package that allows you to add Reveal.js presentations to your React apps."
-              image="/streamlit-reveal-slides.gif"
+              image="/streamlit-reveal-slides.png"
+              gif="/streamlit-reveal-slides.gif"
               link="https://github.com/bouzidanas/react-reveal-slides"
-              techStack={["React", "Reveal.js", "TypeScript", "CSS"]}
+              techStack={["React:#149ECA", "Reveal.js:#D53F8C", "TypeScript:#2F74C0", "CSS:#2E83C6"]}
             />
             <ProjectCard 
               style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out 0.2s"}}
               title="streamlit-reveal-slides"
               description="Create and add reveal.js HTML presentations to your Streamlit app!"
-              image="/streamlit-reveal-slides.gif"
+              image="/streamlit-reveal-slides.png"
+              gif="/streamlit-reveal-slides.gif"
               link="https://github.com/bouzidanas/streamlit-reveal-slides"
-              techStack={["React", "Reveal.js", "Python", "Streamlit", "TypeScript", "CSS"]}
+              techStack={["React:#149ECA", "Reveal.js:#D53F8C", "Python:#356C9B", "Streamlit:#FF4B4B", "TypeScript:#2F74C0", "CSS:#2E83C6"]}
             />
           </div>
         </section>
