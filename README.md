@@ -87,7 +87,7 @@ npm i --save-dev @types/reveal.js
 By default, the RevealSlides component will take up the entire width and height of its parent container. If you want to change the dimensions of the presentation, you can do so by changing the width and height of the parent container. 
 
 #### Data attributes
-`data-` attributes can be added in JSX (as props) same as how you would in markup except in the case of boolean data attributes. In that case, you must set the value to empty string. For example, `data-markdown` should be `data-markdown=""` in JSX.
+`data-` attributes can be added in JSX (as props) same as how you would in markup except in the case of boolean data attributes. In that case, you must set the value to an empty string. For example, `data-markdown` should be `data-markdown=""` in JSX.
 
 # License
 [![Static Badge](https://img.shields.io/badge/License-MIT-415a77?style=for-the-badge)](https://github.com/bouzidanas/react-reveal-slides/blob/master/LICENSE)
