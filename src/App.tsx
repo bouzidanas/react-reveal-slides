@@ -94,6 +94,34 @@ const liquidImage = ({id, ...options}:{id: string} & LiquidImageOptions) => {
   });
 }
 
+const ProjectCard = ({title, description, image, link, techStack, style}: {title: string, description: string, image: string, link: string, techStack: string[], style?: CSSProperties}) => {
+  return (
+    <a href={link} target="_blank" rel="noreferrer" style={{color: "inherit"}}>
+      <div className="project-card" style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "start", alignItems: "center", overflow: "hidden", borderRadius: "0.5rem",
+      ...style}}>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", height: "55%", width: "100%", overflow: "hidden"}}>
+          <a href={link} target="_blank" rel="noreferrer" style={{height: "100%", width: "100%"}}>
+            <img src={image} alt={title} style={{maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
+          </a>
+        </div>
+        <div className="card-content" style={{display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column", gap: "0.5rem", marginTop: "1rem", flex: 1}}>
+          <h4 style={{color: "#f17a52", textAlign: "center", fontSize: "110%"}}> 
+            {title}
+          </h4>
+          <p style={{textAlign: "center"}}> 
+            {description}
+          </p>
+        </div>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "center", margin: "0.8rem", gap: "0.3rem", flex: 0, flexFlow: "wrap"}}>
+          {techStack.map((tech, i) => (
+            <div key={i} style={{ padding: "0.4rem 0.5rem", backgroundColor: "#f17a52", color: "white", borderRadius: "0.35rem", fontSize: "85%"}}>{tech}</div>
+          ))}
+        </div>
+      </div>
+    </a>
+  )
+}
+
 const showIntro = false;
 
 function App() {
@@ -119,16 +147,13 @@ function App() {
     }
     else if (state.indexh === 0 && state.indexv === 1) {
       setHeaderFontColor("black");
+    
     }
     else if (state.indexh === 1 && state.indexv === 0 && state.indexf === 0) {
       setHeaderFontColor("white");
-      liquidImageRef2.current?.previous();
-    }
-    else if (state.indexh === 1 && state.indexv === 0 && state.indexf === 1) {
-      setHeaderFontColor("white");
       liquidImageRef2.current?.next();
     }
-    else if (state.indexh === 1 && state.indexv === 0 && state.indexf === 2) {
+    else if (state.indexh === 1 && state.indexv === 0 && state.indexf === 1) {
       setHeaderFontColor("white");
       liquidImageRef2.current?.previous();
     }
@@ -224,9 +249,9 @@ function App() {
               <h2 style={{color: "#E7AD52", opacity: 0, height: 0, fontFamily: "'Bebas Neue', sans-serif", fontSize: "5vw", zIndex: "3", animation: "firstTitleOut 1s ease-in-out"}}>react-reveal-slides</h2>
               <div style={{display: "flex", justifyContent: "center", alignItems: "center", width: "64vw", height: "32vw", backgroundColor: "black", overflow: "hidden", borderRadius: "1.2rem", animation: "growWindow 1s ease-in-out", zIndex: "3"}}>
                 <img src="man-walking.jpg" alt="man-walking" style={{filter: "brightness(0.75)", maxWidth: "unset", minWidth: "90vw", maxHeight: "unset", animation: "imgZoomOut 1s ease-in-out"}} />
-                <div style={{opacity: 1, color: "#E7AD52", fontWeight: "700", fontSize: "12vmin", position: "absolute", left: "50vw", top: "37vh", transform: "translate(-50%, -50%)", animation: "fadeIn2 1.2s ease-in-out"}}>REACT</div>
-                <div style={{opacity: 1, color: "#E7AD52", fontWeight: "700", fontSize: "12vmin", position: "absolute", left: "50vw", top: "52vh", transform: "translate(-50%, -50%)", animation: "fadeIn2 1.2s ease-in-out"}}>+</div>
-                <div style={{opacity: 1, color: "#E7AD52", fontWeight: "700", fontSize: "12vmin", position: "absolute", left: "50vw", top: "67vh", transform: "translate(-50%, -50%)", animation: "fadeIn2 1.2s ease-in-out"}}>REVEAL.JS</div>
+                <div style={{opacity: 1, color: "#E7AD52", fontWeight: "700", fontSize: "12vmin", position: "absolute", left: "50vw", transform: "translate(-50%, -64%)", animation: "fadeIn2 1.2s ease-in-out"}}>REACT</div>
+                <div style={{opacity: 1, color: "#E7AD52", fontWeight: "700", fontSize: "12vmin", position: "absolute", left: "50vw", transform: "translate(-50%, 2%)", animation: "fadeIn2 1.2s ease-in-out"}}>+</div>
+                <div style={{opacity: 1, color: "#E7AD52", fontWeight: "700", fontSize: "12vmin", position: "absolute", left: "50vw", transform: "translate(-50%, 70%)", animation: "fadeIn2 1.2s ease-in-out"}}>REVEAL.JS</div>
               </div>
             </div>
           </section>
@@ -270,21 +295,41 @@ function App() {
               </div>
             </div>
           </section>
-          <section key="1-1" data-background-color='#bf4f41'>
-            <p>Since React creates HTML DOM elements out of JSX, there should be no reason we cant just put JSX inside of our RevealSlides component instead of the HTML markup Reveal.js normally expects.</p>
+          <section key="1-1" data-auto-animate="" data-background-color="#222222">
+            <p style={{padding: "1vh 16vw"}}>Since React creates HTML DOM elements out of JSX, there should be no reason we cant just put JSX inside of our RevealSlides component instead of the HTML markup Reveal.js normally expects.</p>
           </section>
-          <section key="1-2">  
-            <p>Simply put, React already takes care of converting JSX into something Reveal.js can work with.</p>
-            <aside className="notes">
-              Shhh, these are your private notes 📝
-            </aside>
+          <section key="1-2" data-auto-animate="" data-background-color="#222222">  
+            <p style={{padding: "1vh 16vw"}}>Since React creates HTML DOM elements out of JSX, there should be no reason we cant just put JSX inside of our RevealSlides component instead of the HTML markup Reveal.js normally expects.</p>
+            <p style={{padding: "1vh 16vw"}}>Simply put, React already takes care of converting JSX into something Reveal.js can work with.</p>
           </section>
-          <section key="1-3">
-            <p>So, if you can make a React component, you can make a Reveal.js slide.</p>
+          <section key="1-3" data-auto-animate="" data-background-color="#222222">
+            <p style={{padding: "1vh 16vw"}}>Since React creates HTML DOM elements out of JSX, there should be no reason we cant just put JSX inside of our RevealSlides component instead of the HTML markup Reveal.js normally expects.</p>
+            <p style={{padding: "1vh 16vw"}}>Simply put, React already takes care of converting JSX into something Reveal.js can work with.</p>
+            <p style={{padding: "1vh 16vw"}}>So, if you can make a React component, you can make a Reveal.js slide.</p>
           </section>
         </section>
-        <section key="2">
-          <h2>Custom Themes</h2>
+        <section key="2" data-background-color="#dedede" style={{display: "flex", justifyContent: "center", flexDirection: "column", alignItems: "center", gap: "4rem"}}>
+          <h4 style={{color: "#f17a52", textAlign: "center", marginBottom: "3rem"}}> 
+            Related projects
+          </h4>
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "2rem", maxWidth: "100%", maxHeight: "70vh", flexWrap: "wrap"}}>
+            <ProjectCard 
+              style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out"}}
+              title="react-reveal-slides"
+              description="A package that allows you to add Reveal.js presentations to your React apps."
+              image="/streamlit-reveal-slides.gif"
+              link="https://github.com/bouzidanas/react-reveal-slides"
+              techStack={["React", "Reveal.js", "TypeScript", "CSS"]}
+            />
+            <ProjectCard 
+              style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out 0.2s"}}
+              title="streamlit-reveal-slides"
+              description="Create and add reveal.js HTML presentations to your Streamlit app!"
+              image="/streamlit-reveal-slides.gif"
+              link="https://github.com/bouzidanas/streamlit-reveal-slides"
+              techStack={["React", "Reveal.js", "Python", "Streamlit", "TypeScript", "CSS"]}
+            />
+          </div>
         </section>
         <section key="3" data-background-color="#dedede">
           <h2>The end</h2>

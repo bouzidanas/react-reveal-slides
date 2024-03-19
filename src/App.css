@@ -89,3 +89,21 @@
     height: 0;
   }
 }
+
+.project-card {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+}
+
+.project-card:hover {
+  box-shadow: rgba(60, 64, 67, 0.5) 0px 1px 2px 0px, rgba(60, 64, 67, 0.25) 0px 2px 4px 2px;
+}
+
+.project-card > div * {
+  margin: 0;
+}
+.project-card > div:first-child img {
+  margin: 0;
+}
+section div .project-card > .card-content * {
+  margin: 0 0.5rem;
+}

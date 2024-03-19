@@ -10,13 +10,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "hover-effect": "github:bouzidanas/hover-effect",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^5.0.1",
     "reveal.js": "github:bouzidanas/reveal.js"
   },
   "devDependencies": {
+    "react-icons": "^5.0.1",
+    "hover-effect": "github:bouzidanas/hover-effect",
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
     "@types/three": "^0.161.2",
