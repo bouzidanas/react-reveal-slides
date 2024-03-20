@@ -102,7 +102,7 @@ const ProjectCard = ({title, description, image, link, gif, techStack, style}: {
         <div className="card-image" style={{display: "flex", justifyContent: "center", alignItems: "center", height: "55%", width: "100%", overflow: "hidden"}}>
           <div style={{position: "relative", height: "100%", width: "100%"}}>
             {gif && <img src={gif} alt={title} style={{maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />}
-            <img className="cover-image" src={image} alt={title} style={{position: "relative", top: "-100%", maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
+            <img className="cover-image" src={image} alt={title} style={{position: "relative", top: gif ? "-100%" : "0", maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
           </div>
         </div>
         <div className="card-content" style={{display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column", gap: "0.5rem", marginTop: "1rem", flex: 1}}>
@@ -318,8 +318,7 @@ function App() {
               style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out"}}
               title="react-reveal-slides"
               description="A package that allows you to add Reveal.js presentations to your React apps."
-              image="/streamlit-reveal-slides.png"
-              gif="/streamlit-reveal-slides.gif"
+              image="/react-reveal-slides.png"
               link="https://github.com/bouzidanas/react-reveal-slides"
               techStack={["React:#149ECA", "Reveal.js:#D53F8C", "TypeScript:#2F74C0", "CSS:#2E83C6"]}
             />

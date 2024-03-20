@@ -4,6 +4,8 @@
   Create and add <a href="https://revealjs.com/">reveal.js</a> HTML presentations entirely in react!
 </p>
 
+![react-reveal-slides](https://github.com/bouzidanas/react-reveal-slides/assets/25779130/2005785d-8108-4e1f-a87d-d042965c9414)
+
 ## Overview
 - Add multiple slide decks to your React app
 - Embed React components inside presentations
