@@ -102,7 +102,7 @@ const ProjectCard = ({title, description, image, link, gif, techStack, style}: {
         <div className="card-image" style={{display: "flex", justifyContent: "center", alignItems: "center", height: "55%", width: "100%", overflow: "hidden"}}>
           <div style={{position: "relative", height: "100%", width: "100%"}}>
             {gif && <img src={gif} alt={title} style={{maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />}
-            <img className="cover-image" src={image} alt={title} style={{position: "relative", top: gif ? "-100%" : "0", maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
+            <img className={gif ? "cover-image" : "sole-image"} src={image} alt={title} style={{position: "relative", top: gif ? "-100%" : "0", maxWidth: "100%", maxHeight: "100%", width: "100%", height: "100%", objectFit: "cover"}} />
           </div>
         </div>
         <div className="card-content" style={{display: "flex", justifyContent: "start", alignItems: "center", flexDirection: "column", gap: "0.5rem", marginTop: "1rem", flex: 1}}>
@@ -223,6 +223,9 @@ function App() {
     }
   }, []);
 
+
+  console.log("PresState: ", presState);
+
   return (
     <>
       <div key="header-navbar" style={{position: "absolute", top: "0", left: "0", width: "100%", height: "4.5rem", display: "flex", justifyContent: "center", alignItems: "center", zIndex: "1000000001", visibility: headerVisible, opacity: headerOpacity, transition: headerOpacity === 0 ? "" : "opacity 0.7s ease-in-out 0.8s"}}>
@@ -313,7 +316,7 @@ function App() {
           <h4 style={{color: "#f17a52", textAlign: "center", marginBottom: "3rem"}}> 
             Related projects
           </h4>
-          <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "2rem", maxWidth: "100%", maxHeight: "70vh", flexWrap: "wrap"}}>
+          <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "3rem", maxWidth: "100%", maxHeight: "70vh", flexWrap: "wrap"}}>
             <ProjectCard 
               style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out"}}
               title="react-reveal-slides"
