@@ -42,7 +42,7 @@ import RevealZoom from 'reveal.js/plugin/zoom/zoom';
 
 function App() {
   return (
-    <RevealSlides controls={false} plugins={[RevealZoom, RevealNotes]}onStateChange={(state)=>console.log(state)}>
+    <RevealSlides controls={false} plugins={[RevealZoom, RevealNotes]} onStateChange={(state)=>console.log(state)}>
       <section key="0" data-background-color="#0c1821">
         <section key="0-0">
           <h2>react-reveal-slides</h2>
