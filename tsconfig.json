@@ -14,11 +14,7 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
-    "typeRoots": ["./node_modules/@types", "./src/custom-typings"],
-    "paths":{
-      "reveal.js": ["./src/custom-typings/reveal.js"],
-      "reveal.js/*": ["./src/custom-typings/reveal.js/*"]
-    },
+    "typeRoots": ["./node_modules/@types"],
 
     /* Linting */
     "strict": true,
@@ -26,6 +22,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/custom-typings"],
+  "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
