@@ -489,7 +489,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
-        import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
+        import(`./reveal-themes/${theme}.css`)
             .then(() => {
                 try {
                     revealRef.current!.layout();
@@ -498,19 +498,8 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
                     console.warn("Reveal.layout() call failed.");
                 }
             })
-            .catch(() => {
-                import(`../../reveal.js/dist/theme/${theme}.css`)
-                    .then(() => {
-                        try {
-                            revealRef.current!.layout();
-                            setVisible(true);
-                        } catch (e) {
-                            console.warn("Reveal.layout() call failed.");
-                        }
-                    })
-                    .catch((err) => {
-                        console.warn("Failed CSS import: ", err);
-                    });
+            .catch((err) => {
+                console.warn("Failed CSS import: ", err);
             });
     }, [theme]);
 
