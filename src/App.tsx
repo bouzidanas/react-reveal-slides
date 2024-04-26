@@ -318,7 +318,7 @@ function App() {
           </h4>
           <div style={{display: "flex", justifyContent: "center", alignItems: "center", gap: "3rem", maxWidth: "100%", maxHeight: "70vh", flexWrap: "wrap"}}>
             <ProjectCard 
-              style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out"}}
+              style={{width: "22rem", height: "29rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out"}}
               title="react-reveal-slides"
               description="A package that allows you to add Reveal.js presentations to your React apps."
               image="/react-reveal-slides.png"
@@ -326,7 +326,7 @@ function App() {
               techStack={["React:#149ECA", "Reveal.js:#D53F8C", "TypeScript:#2F74C0", "CSS:#2E83C6"]}
             />
             <ProjectCard 
-              style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out 0.2s"}}
+              style={{width: "22rem", height: "29rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out 0.2s"}}
               title="streamlit-reveal-slides"
               description="Create and add reveal.js HTML presentations to your Streamlit app!"
               image="/streamlit-reveal-slides.png"
@@ -335,7 +335,7 @@ function App() {
               techStack={["React:#149ECA", "Reveal.js:#D53F8C", "Python:#356C9B", "Streamlit:#FF4B4B", "TypeScript:#2F74C0", "CSS:#2E83C6"]}
             />
             <ProjectCard 
-              style={{width: "20rem", height: "28rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out 0.2s"}}
+              style={{width: "22rem", height: "29rem", fontSize: "1.1rem", backgroundColor: "white", gap: "0.5rem", animation: "fadeIn 0.5s ease-in-out 0.2s"}}
               title="content-to-cards"
               description="Convert markdown content to a simple slide deck for embedding in a webpage."
               image="/content-to-cards.png"
