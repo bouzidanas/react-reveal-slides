@@ -158,7 +158,7 @@ function App() {
       setHeaderFontColor("white");
       liquidImageRef2.current?.previous();
     }
-    else if (state.indexh > 2) {
+    else if (state.indexh > 1) {
       setHeaderFontColor("black");
     }
     else {
