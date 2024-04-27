@@ -485,7 +485,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         };
     }, []);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
@@ -493,7 +493,6 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             .then(() => {
                 console.log("Theme loaded: ", theme);
                 try {
-                    revealRef.current!.sync();
                     revealRef.current!.layout();
                     setVisible(true);
                 } catch (e) {
