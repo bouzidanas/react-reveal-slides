@@ -9,11 +9,6 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "peerDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "reveal.js": "^5.1.0"
-  },
   "devDependencies": {
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.43",
