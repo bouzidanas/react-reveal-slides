@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import Reveal from "reveal.js";
+import fs from 'fs';
 
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
@@ -485,13 +486,12 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         };
     }, []);
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
         import(`./reveal-themes/${theme}.css`)
             .then(() => {
-                console.log("Theme loaded: ", theme);
                 try {
                     revealRef.current!.layout();
                     setVisible(true);
@@ -502,6 +502,21 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             .catch((err) => {
                 console.warn("Failed CSS import: ", err);
             });
+        // if (revealDivRef.current) {
+        //     try {
+        //         const themeCSS = fs.readFileSync(`./reveal-themes/${theme}.css`, 'utf8');
+        //         const newStyleElement = document.createElement("style");
+        //         console.log("themeCSS", themeCSS);
+        //         newStyleElement.textContent = themeCSS;
+        //         revealDivRef.current.appendChild(newStyleElement);
+        //         revealRef.current!.layout();
+        //         setVisible(true);
+        //     }
+        //     catch (e) {
+        //         console.warn("Failed to load theme CSS file.");
+        //     }
+        // }
+
     }, [theme]);
 
     useEffect(() => {
