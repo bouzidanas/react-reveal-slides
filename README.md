@@ -76,6 +76,19 @@ function App() {
 export default App
 ```
 
+### Themes
+
+Reveal.js comes with a variety of themes including: `black`, `white`, `league`, `beige`, `sky`, `night`, `serif`, `simple`, `solarized`, `blood`, `moon`, and `night`.
+
+To use a theme, you can import the desired Reveal.js theme css file in your project. For example, to use the `black` theme, you can import the css file like so:
+
+```tsx
+import 'reveal.js/css/theme/black.css'
+
+// or alternatively
+import '../node_modules/reveal.js/css/theme/black.css'
+```
+
 ### Tips
 
 #### Dimensions
