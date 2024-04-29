@@ -94,6 +94,8 @@ import '../node_modules/reveal.js/css/theme/black.css'
 #### Dimensions
 By default, the RevealSlides component will take up the entire width and height of its parent container. If you want to change the dimensions of the presentation, you can do so by changing the width and height of the parent container. 
 
+If you do not see the presentation, one thing to check is the dimensions of the parent container.
+
 #### Data attributes
 `data-` attributes can be added in JSX (as props) same as how you would in markup except in the case of boolean data attributes. In that case, you must set the value to an empty string. For example, `data-markdown` should be `data-markdown=""` in JSX.
 
