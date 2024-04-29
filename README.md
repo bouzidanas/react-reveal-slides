@@ -88,6 +88,7 @@ import 'reveal.js/css/theme/black.css'
 // or alternatively
 import '../node_modules/reveal.js/css/theme/black.css'
 ```
+To use any of the other themes, simply replace `black` with the desired theme name.
 
 ### Tips
 
