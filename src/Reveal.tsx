@@ -472,6 +472,11 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
                     onStateChange(revealRef.current!.getState());
                 });
             }
+
+            const presState = JSON.parse(presStateStr);
+            if (Object.keys(presState).length !== 0) {
+                revealRef.current!.setState(presState);
+            }
         });
 
         return () => {
