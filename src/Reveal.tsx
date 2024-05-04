@@ -399,7 +399,6 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
 
     const revealDivRef = useRef<HTMLDivElement>(null);
     const revealRef = useRef<Reveal.Api | null>(null);
-    const themeLoaded = useRef(false);
     
     const presStateStr = JSON.stringify(presState);
     const childrenStr = JSON.stringify(children, circular());
@@ -478,10 +477,6 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             if (Object.keys(presState).length !== 0) {
                 revealRef.current!.setState(presState);
             }
-
-            if (themeLoaded.current) {
-                setVisible(true);
-            }
         });
 
         return () => {
@@ -504,7 +499,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
                 console.log("Theme loaded: ", theme);
                 try {
                     revealRef.current!.layout();
-                    themeLoaded.current = true;
+                    setVisible(true);
                 } catch (e) {
                     console.warn("Reveal.layout() call failed.");
                 }
