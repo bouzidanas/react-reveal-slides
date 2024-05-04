@@ -477,6 +477,8 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             if (Object.keys(presState).length !== 0) {
                 revealRef.current!.setState(presState);
             }
+
+            console.log("Reveal initialized");
         });
 
         return () => {
