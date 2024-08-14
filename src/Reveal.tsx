@@ -504,10 +504,12 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
                     setVisible(true);
                 } catch (e) {
                     console.warn("Reveal.layout() call failed.");
+                    setVisible(true);
                 }
             })
             .catch((err) => {
                 console.warn("Failed CSS import: ", err);
+                setVisible(true);
             });
     }, [theme]);
 
