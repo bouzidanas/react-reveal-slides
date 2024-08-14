@@ -83,10 +83,10 @@ Reveal.js comes with a variety of themes including: `black`, `white`, `league`, 
 To use a theme, you can import the desired Reveal.js theme css file in your project. For example, to use the `black` theme, you can import the css file like so:
 
 ```tsx
-import 'reveal.js/css/theme/black.css'
+import 'reveal.js/dist/theme/black.css'
 
 // or alternatively
-import '../node_modules/reveal.js/css/theme/black.css'
+import '../node_modules/reveal.js/dist/theme/black.css'
 ```
 To use any of the other themes, simply replace `black` with the desired theme name.
 
