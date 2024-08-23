@@ -472,12 +472,13 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         });
 
         return () => {
-            if (!revealRef.current) return;
-            try {
-                revealRef.current!.destroy();
-                revealRef.current = null;
-            } catch (e) {
-                console.warn("Reveal.destroy() call failed.");
+            if (revealRef.current?.isReady()){
+                try {
+                    revealRef.current!.destroy();
+                    revealRef.current = null;
+                } catch (e) {
+                    console.warn("Reveal.destroy() call failed.");
+                }
             }
         };
     }, []);
