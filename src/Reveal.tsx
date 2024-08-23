@@ -1,5 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import Reveal from "reveal.js";
+import { HighlightConfig } from "reveal.js";
+
 
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
@@ -327,8 +329,11 @@ const defaultConfigProps = {
     dependencies: [],
 
     // Plugin objects to register and use for this presentation
-    plugins: []
+    plugins: [],
 
+    // Turn off highlighting for code blocks on loading the presentation until
+    // issue with reinitializing the highlighter is resolved.
+    highlight: {highlightOnLoad: false} as HighlightConfig,
 };
 
 const themes = [ "black", "white", "league", "beige", "sky", "night", "serif", "simple", "solarized", "blood", "moon", "night", "none"];
