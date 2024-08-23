@@ -422,23 +422,11 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
     // functions such as initialize, configure, and setState.
 
     // Initialize reveal.js
-    useEffect(() => {
+    useLayoutEffect(() => {
         if (revealRef.current) return;
         const configuration = setupConfig(configProps);
         revealRef.current = new Reveal(revealDivRef.current!, configuration);
         revealRef.current.initialize().then(() => {
-            // reveal.js is ready
-            // For some yet to be determined reason, the highlight plugin is not initializing.
-            // Setting highlight config option highlightOnLoad to true (before passing to initialize function)
-            // does not work
-            // To Do: make sure the highlight plugin only changes the HTML involving the code once instead of many times.
-            // Possible solution is to make a change to the plugin init function.
-
-            // const highlighter = revealRef.current!.getPlugin("highlight");
-            // if (highlighter) {
-            //     console.log("Highlighter plugin found");
-            //     highlighter.init && highlighter.init(revealRef.current!);
-            // }
 
             // Add state change handling
             if (onStateChange) {
