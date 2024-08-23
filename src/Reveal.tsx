@@ -352,6 +352,11 @@ export type RevealHandle = {
     getReveal: () => Reveal.Api | null;
 };
 
+interface RevealHighlightPlugin extends Reveal.Plugin {
+    highlightBlock: ( block: HTMLElement ) => void;
+    scrollHighlightedLineIntoView: ( block: HTMLElement, scrollState: object, skipAnimation: boolean ) => void;
+}
+
 interface RevealExtendedOptions extends Reveal.Options {
     // Can be used to initialize reveal.js in one of the following views:
     // - print:   Render the presentation so that it can be printed to PDF
@@ -558,6 +563,14 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         console.log("children adjust");
         const children = JSON.parse(childrenStr);
         if (revealRef.current?.isReady() && children) {
+            // Check if there is a highlight plugin and there are any code blocks without data-highlighted="yes"
+            // If so, highlight the code blocks.
+            const highlighter = revealRef.current!.getPlugin("highlight");
+            if (highlighter && revealDivRef.current) {
+                revealDivRef.current.querySelectorAll("pre code:not([data-highlighted='yes'])").forEach((block) => {
+                    (highlighter as RevealHighlightPlugin).highlightBlock(block as HTMLElement);
+                });
+            }
             revealRef.current.sync();
             revealRef.current.layout();
         }
