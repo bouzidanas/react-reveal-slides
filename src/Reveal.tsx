@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import Reveal from "reveal.js";
+import { HighlightConfig } from "reveal.js";
 
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
@@ -327,7 +328,10 @@ const defaultConfigProps = {
     dependencies: [],
 
     // Plugin objects to register and use for this presentation
-    plugins: []
+    plugins: [],
+
+    // Highlight plugin options
+    highlight: {highlightOnLoad: false} as HighlightConfig,
 
 };
 
@@ -433,10 +437,12 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             // does not work
             // To Do: make sure the highlight plugin only changes the HTML involving the code once instead of many times.
             // Possible solution is to make a change to the plugin init function.
-            const highlighter = revealRef.current!.getPlugin("highlight");
-            if (highlighter) {
-                highlighter.init && highlighter.init(revealRef.current!);
-            }
+
+            // const highlighter = revealRef.current!.getPlugin("highlight");
+            // if (highlighter) {
+            //     console.log("Highlighter plugin found");
+            //     highlighter.init && highlighter.init(revealRef.current!);
+            // }
 
             // Add state change handling
             if (onStateChange) {
@@ -496,7 +502,7 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
-        import(`../node_modules/reveal.js/dist/theme/${theme}.css`)
+        import(`reveal.js/dist/theme/${theme}.css`)
             .then(() => {
                 console.log("Theme loaded: ", theme);
                 try {
