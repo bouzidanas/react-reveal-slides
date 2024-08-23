@@ -1,6 +1,5 @@
 import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, useState } from "react";
 import Reveal from "reveal.js";
-import { HighlightConfig } from "reveal.js";
 
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
@@ -328,10 +327,7 @@ const defaultConfigProps = {
     dependencies: [],
 
     // Plugin objects to register and use for this presentation
-    plugins: [],
-
-    // Highlight plugin options
-    highlight: {highlightOnLoad: false} as HighlightConfig,
+    plugins: []
 
 };
 
