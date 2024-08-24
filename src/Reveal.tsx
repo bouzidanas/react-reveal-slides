@@ -5,8 +5,6 @@ import { HighlightConfig } from "reveal.js";
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
 
-import "../node_modules/reveal.js/dist/theme/moon.css";
-
 const defaultConfigProps = {
     // The "normal" size of the presentation, aspect ratio will be preserved
     // when the presentation is scaled to fit different resolutions
