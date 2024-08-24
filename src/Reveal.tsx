@@ -2,11 +2,10 @@ import { forwardRef, useEffect, useImperativeHandle, useLayoutEffect, useRef, us
 import Reveal from "reveal.js";
 import { HighlightConfig } from "reveal.js";
 
-
 import "reveal.js/dist/reveal.css";
 import "reveal.js/plugin/highlight/monokai.css";
 
-// import "../node_modules/reveal.js/dist/theme/moon.css";
+import "../node_modules/reveal.js/dist/theme/moon.css";
 
 const defaultConfigProps = {
     // The "normal" size of the presentation, aspect ratio will be preserved
@@ -497,35 +496,36 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
         // Dynamically import the theme CSS file
-        import(`reveal.js/dist/theme/${theme}.css`)
-            .then(() => {
-                console.log("Theme loaded: ", theme);
-                try {
-                    revealRef.current!.layout();
-                    setVisible(true);
-                } catch (e) {
-                    console.warn("Reveal.layout() call failed.");
-                    setVisible(true);
-                }
-            })
-            .catch((err) => {
-                console.warn("Failed CSS import: ", err);
-                // try another import location
-                import(`../../reveal.js/dist/theme/${theme}.css`)
-                    .then(() => {
-                        console.log("Theme loaded: ", theme);
-                        try {
-                            revealRef.current!.layout();
-                            setVisible(true);
-                        } catch (e) {
-                            console.warn("Reveal.layout() call failed.");
-                            setVisible(true);
-                        }
-                    })
-                    .catch((err) => {
-                        console.warn("Failed CSS import: ", err);
-                    });
-            });
+        // import(`../node_packages/reveal.js/dist/theme/${theme}.css`)
+        //     .then(() => {
+        //         console.log("Theme loaded: ", theme);
+        //         try {
+        //             revealRef.current!.layout();
+        //             setVisible(true);
+        //         } catch (e) {
+        //             console.warn("Reveal.layout() call failed.");
+        //             setVisible(true);
+        //         }
+        //     })
+        //     .catch((err) => {
+        //         console.warn("Failed CSS import: ", err);
+        //         // try another import location
+        //         import(`../node_packages/reveal.js/dist/theme/${theme}.css`)
+        //             .then(() => {
+        //                 console.log("Theme loaded: ", theme);
+        //                 try {
+        //                     revealRef.current!.layout();
+        //                     setVisible(true);
+        //                 } catch (e) {
+        //                     console.warn("Reveal.layout() call failed.");
+        //                     setVisible(true);
+        //                 }
+        //             })
+        //             .catch((err) => {
+        //                 console.warn("Failed CSS import: ", err);
+        //             });
+        //     });
+        setVisible(true);
     }, [theme]);
 
     useEffect(() => {

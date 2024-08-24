@@ -1,5 +1,5 @@
 import { CSSProperties, forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react"
-import { RevealSlides } from "./Reveal"
+import { RevealSlides } from "./Reveal";
 import { BiLogoGithub } from "react-icons/bi";
 import HoverEffect from 'hover-effect';
 
@@ -139,7 +139,7 @@ function App() {
   const timeDelta = 1000;
 
   const handleOnStateChange = (state: Reveal.RevealState) => {
-    console.log(state);
+    //console.log(state);
     
     if (state.indexh === 0 && state.indexv === 0){
       setHeaderFontColor("white");
@@ -224,7 +224,7 @@ function App() {
   }, []);
 
 
-  console.log("PresState: ", presState);
+  //console.log("PresState: ", presState);
 
   return (
     <>
