@@ -428,8 +428,37 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
     // Reveal API will cause effects. This makes useEffect the best place to call the Reveal API 
     // functions such as initialize, configure, and setState.
 
-    // Initialize reveal.js
+    // When the children change, sync slides and adjust the layout
     useLayoutEffect(() => {
+        const children = JSON.parse(childrenStr);
+        if (revealRef.current?.isReady() && children) {
+            console.log("children adjust");
+            // Check if there is a highlight plugin and there are any code blocks without data-highlighted="yes"
+            // If so, highlight the code blocks.
+            const highlighter = revealRef.current!.getPlugin("highlight");
+            if (highlighter && revealDivRef.current) {
+                revealDivRef.current.querySelectorAll("pre code:not([data-highlighted='yes'])").forEach((block) => {
+                    (highlighter as RevealHighlightPlugin).highlightBlock(block as HTMLElement);
+                });
+            }
+            revealRef.current.sync();
+        }
+    }, [childrenStr]);
+
+    // Adjust layout after everything but before painting changes.
+    // There are many things that can cause the layout to change,
+    // including changes in the parent, configuration options,
+    // container size, and changes in the child elements.
+    useLayoutEffect(() => {
+        if (revealRef.current?.isReady()) {
+            console.log("layout adjust");
+            revealRef.current.layout();
+        }
+    });
+
+    // Initialize reveal.js
+    // Note that this has to be a useEffect.
+    useEffect(() => {
         if (revealRef.current) return;
         const configuration = setupConfig(configProps);
         revealRef.current = new Reveal(revealDivRef.current!, configuration);
@@ -500,37 +529,9 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         };
     }, []);
 
-    // When the children change, sync slides and adjust the layout
-    useLayoutEffect(() => {
-        console.log("children adjust");
-        const children = JSON.parse(childrenStr);
-        if (revealRef.current?.isReady() && children) {
-            // Check if there is a highlight plugin and there are any code blocks without data-highlighted="yes"
-            // If so, highlight the code blocks.
-            const highlighter = revealRef.current!.getPlugin("highlight");
-            if (highlighter && revealDivRef.current) {
-                revealDivRef.current.querySelectorAll("pre code:not([data-highlighted='yes'])").forEach((block) => {
-                    (highlighter as RevealHighlightPlugin).highlightBlock(block as HTMLElement);
-                });
-            }
-            revealRef.current.sync();
-        }
-    }, [childrenStr]);
-
-    // Adjust layout after everything but before painting changes.
-    // There are many things that can cause the layout to change,
-    // including changes in the parent, configuration options,
-    // container size, and changes in the child elements.
-    useLayoutEffect(() => {
-        console.log("layout adjust");
-        if (revealRef.current?.isReady()) {
-            revealRef.current.layout();
-        }
-    });
-
     useEffect(() => {
-        console.log("theme adjust");
         if (!theme || theme === 'none' || !themes.includes(theme)) return;
+        console.log("theme loaded");
         
         // TODO: Implement logic to determine if the theme has been loaded
 
