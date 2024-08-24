@@ -435,6 +435,16 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         revealRef.current = new Reveal(revealDivRef.current!, configuration);
         revealRef.current.initialize().then(() => {
 
+            // Manually highlight code blocks that are not highlighted
+            // This is a workaround for an issue where already initialized code 
+            // blocks are reinitialized causing layout problems.
+            const highlighter = revealRef.current!.getPlugin("highlight");
+            if (highlighter && revealDivRef.current) {
+                revealDivRef.current.querySelectorAll("pre code:not([data-highlighted='yes'])").forEach((block) => {
+                    (highlighter as RevealHighlightPlugin).highlightBlock(block as HTMLElement);
+                });
+            }
+
             // Add state change handling
             if (onStateChange) {
                 // Send slide position indecies back to Streamlit on initialization and on slide change
@@ -490,49 +500,43 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
         };
     }, []);
 
+    // When the children change, sync slides and adjust the layout
     useLayoutEffect(() => {
-        console.log("theme adjust");
-        if (!theme || theme === 'none' || !themes.includes(theme)) return;
-        // Dynamically import the theme CSS file
-        // import(`../node_packages/reveal.js/dist/theme/${theme}.css`)
-        //     .then(() => {
-        //         console.log("Theme loaded: ", theme);
-        //         try {
-        //             revealRef.current!.layout();
-        //             setVisible(true);
-        //         } catch (e) {
-        //             console.warn("Reveal.layout() call failed.");
-        //             setVisible(true);
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         console.warn("Failed CSS import: ", err);
-        //         // try another import location
-        //         import(`../node_packages/reveal.js/dist/theme/${theme}.css`)
-        //             .then(() => {
-        //                 console.log("Theme loaded: ", theme);
-        //                 try {
-        //                     revealRef.current!.layout();
-        //                     setVisible(true);
-        //                 } catch (e) {
-        //                     console.warn("Reveal.layout() call failed.");
-        //                     setVisible(true);
-        //                 }
-        //             })
-        //             .catch((err) => {
-        //                 console.warn("Failed CSS import: ", err);
-        //             });
-        //     });
-        setVisible(true);
-    }, [theme]);
+        console.log("children adjust");
+        const children = JSON.parse(childrenStr);
+        if (revealRef.current?.isReady() && children) {
+            // Check if there is a highlight plugin and there are any code blocks without data-highlighted="yes"
+            // If so, highlight the code blocks.
+            const highlighter = revealRef.current!.getPlugin("highlight");
+            if (highlighter && revealDivRef.current) {
+                revealDivRef.current.querySelectorAll("pre code:not([data-highlighted='yes'])").forEach((block) => {
+                    (highlighter as RevealHighlightPlugin).highlightBlock(block as HTMLElement);
+                });
+            }
+            revealRef.current.sync();
+        }
+    }, [childrenStr]);
 
-    useEffect(() => {
+    // Adjust layout after everything but before painting changes.
+    // There are many things that can cause the layout to change,
+    // including changes in the parent, configuration options,
+    // container size, and changes in the child elements.
+    useLayoutEffect(() => {
+        console.log("layout adjust");
         if (revealRef.current?.isReady()) {
-            revealRef.current.configure(configProps);
             revealRef.current.layout();
         }
-    }, [configProps]);
+    });
 
+    useEffect(() => {
+        console.log("theme adjust");
+        if (!theme || theme === 'none' || !themes.includes(theme)) return;
+        
+        // TODO: Implement logic to determine if the theme has been loaded
+
+        setVisible(true);
+    }, [theme]);
+    
     // When reveal.js is ready (after initialization or reconfiguration),
     // set the initial state if it is passed in from Streamlit.
     useEffect(() => {
@@ -560,35 +564,6 @@ export const RevealSlides = forwardRef<RevealHandle, RevealSlidesProps>(({ theme
             }
         }
     }, [disable]);
-
-    // When the children change, sync slides and adjust the layout
-    useEffect(() => {
-        console.log("children adjust");
-        const children = JSON.parse(childrenStr);
-        if (revealRef.current?.isReady() && children) {
-            // Check if there is a highlight plugin and there are any code blocks without data-highlighted="yes"
-            // If so, highlight the code blocks.
-            const highlighter = revealRef.current!.getPlugin("highlight");
-            if (highlighter && revealDivRef.current) {
-                revealDivRef.current.querySelectorAll("pre code:not([data-highlighted='yes'])").forEach((block) => {
-                    (highlighter as RevealHighlightPlugin).highlightBlock(block as HTMLElement);
-                });
-            }
-            revealRef.current.sync();
-            revealRef.current.layout();
-        }
-    }, [childrenStr]);
-
-    // Adjust layout after every render.
-    // There are many things that can cause the layout to change,
-    // including changes in the parent, configuration options,
-    // container size, and changes in the child elements.
-    useLayoutEffect(() => {
-        console.log("layout adjust");
-        if (revealRef.current?.isReady()) {
-            revealRef.current.layout();
-        }
-    });
 
     return (
         <div className="reveal" ref={revealDivRef} style={{ opacity: visible ? 1 : 0, transition: transitionOnThemeLoaded }}>
